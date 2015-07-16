@@ -32,34 +32,36 @@ RUN add-apt-repository ppa:nginx/stable -y && \
     apt-get install -yq nginx=1.8.0-1+trusty1
 
 # IMPORTANT: PPA has UTF-8 characters in it that will fail unless locale is generated
-RUN locale-gen en_US.UTF-8 && export LANG=en_US.UTF-8 && add-apt-repository ppa:ondrej/php5-5.6 -y
+RUN locale-gen en_US.UTF-8 && export LANG=en_US.UTF-8 && add-apt-repository ppa:ondrej/php-7.0 -y
 
 # Update package cache with new PPA, install language and modules
 RUN apt-get update && \
     apt-get -yq install \
-        php5=5.6.11+dfsg-1+deb.sury.org~trusty+1 \
-        php5-fpm=5.6.11+dfsg-1+deb.sury.org~trusty+1 \
-        php5-gearman=1.1.2-1+deb.sury.org~trusty+2 \
-        php5-memcache=3.0.8-5+deb.sury.org~trusty+1 \
-        php5-memcached=2.2.0-2+deb.sury.org~trusty+1 \
-        php5-dev \
-        php5-gd \
-        php5-mysqlnd \
-        php5-intl \
-        php5-curl \
-        php5-mcrypt \
-        php5-json \
-        php5-xdebug \
-        nano && \
-    php5dismod xdebug
+        php7.0-common \
+        php7.0-cli \
+        php7.0-fpm \
+        php7.0-curl \
+        php7.0-gd \
+        php7.0-dev \
+        #php7.0-json \  Still broken on beta
 
-RUN pecl install igbinary-1.2.1 && \
-    echo 'extension=igbinary.so' > /etc/php5/mods-available/igbinary.ini && \
-    php5enmod igbinary
+        # php5-gearman=1.1.2-1+deb.sury.org~trusty+2 \
+        # php5-memcache=3.0.8-5+deb.sury.org~trusty+1 \
+        # php5-memcached=2.2.0-2+deb.sury.org~trusty+1 \
+        # php5-dev \
+        # php5-gd \
+        # php5-mysqlnd \
+        # php5-mcrypt \
+        # php5-xdebug \
+        nano
 
-RUN printf "\n" | pecl install apcu-4.0.7 && \
-    echo 'extension=apcu.so' > /etc/php5/mods-available/apcu.ini && \
-    php5enmod apcu
+# RUN pecl install igbinary-1.2.1 && \
+#     echo 'extension=igbinary.so' > /etc/php5/mods-available/igbinary.ini && \
+#     php5enmod igbinary
+
+# RUN printf "\n" | pecl install apcu-4.0.7 && \
+#     echo 'extension=apcu.so' > /etc/php5/mods-available/apcu.ini && \
+#     php5enmod apcu
 
 
 # Perform cleanup, ensure unnecessary packages are removed
