@@ -29,4 +29,4 @@ sed -i "s/;catch_workers_output/catch_workers_output/" $PHPFPM_CONF
 # 5. reconnecting the stdout to current stdout
 # 6. backgrounding that process
 echo '[php-fpm] starting (background)'
-php5-fpm -F -O 2>&1 | sed -u 's,.*: \"\(.*\)$,\1,'| sed -u 's,"$,,' 1>&1 &
+php-fpm7.0 -F -O 2>&1 | sed -u 's,.*: \"\(.*\)$,\1,'| sed -u 's,"$,,' 1>&1 &
